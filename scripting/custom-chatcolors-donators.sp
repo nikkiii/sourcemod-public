@@ -34,7 +34,6 @@ new bool:g_bTextColorAlpha = false;
 new bool:g_bLateLoad = false;
 
 public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max) {
-	LogMessage("late load: %s", late ? "Yes" : "No");
 	g_bLateLoad = late;
 }
 
@@ -73,7 +72,6 @@ public OnPluginEnd() {
 }
 
 public OnDonatorsChanged() {
-	LogMessage("Reloading donator list...");
 	RefreshAllPlayers();
 }
 
@@ -100,14 +98,12 @@ public Action:CCC_OnUserConfigPreLoaded(client) {
 public Action:Timer_CheckDonatorStatus(Handle:timer, any:data) {
 	new client = GetClientOfUserId(data);
 	if(client < 1 || client > MaxClients || !IsClientInGame(client)) {
-		LogMessage("Invalid client %i", client);
 		return;
 	}
 	CheckTag(client);
 }
 
 RefreshAllPlayers() {
-	LogMessage("Refreshing all players...");
 	for(new i = 1; i < MaxClients; i++) {
 		if(IsClientConnected(i) && IsClientInGame(i)) {
 			CheckTag(i);
