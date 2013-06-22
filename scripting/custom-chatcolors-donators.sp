@@ -42,9 +42,9 @@ public OnPluginStart() {
 	SetConVarString(version, PLUGIN_VERSION);
 	
 	g_hCvarTag = CreateConVar("sm_donator_tag", "[Donator]", "Donator tag (Space automatically appended to end)");
-	g_hCvarTagColor = CreateConVar("sm_donator_tagcolor", "-2", "Donator tag color - None: -1, Green: -2, Olive: -3, Team: -4");
-	g_hCvarNameColor = CreateConVar("sm_donator_namecolor", "-4", "Donator name color - None: -1, Green: -2, Olive: -3, Team: -4");
-	g_hCvarChatColor = CreateConVar("sm_donator_chatcolor", "-1", "Donator chat color - None: -1, Green: -2, Olive: -3, Team: -4");
+	g_hCvarTagColor = CreateConVar("sm_donator_tagcolor", "G", "Donator tag color - None: -1, Green: G, Olive: O, Team: T");
+	g_hCvarNameColor = CreateConVar("sm_donator_namecolor", "T", "Donator name color - None: -1, Green: G, Olive: O, Team: T");
+	g_hCvarChatColor = CreateConVar("sm_donator_chatcolor", "-1", "Donator chat color - None: -1, Green: G, Olive: O, Team: T");
 	
 	HookConVarChange(g_hCvarTag, CvarChanged);
 	HookConVarChange(g_hCvarTagColor, CvarChanged);
@@ -225,5 +225,7 @@ ParseColor(const String:color[], &iTagColor, &bool:bTagColorAlpha) {
 		}
 	} else if(colorLen == 6 || colorLen == 8) {
 		iTagColor = StringToInt(color, 16);
+	} else if(StringToInt(color) < 0) {
+		iTagColor = StringToInt(color);
 	}
 }
