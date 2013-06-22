@@ -38,7 +38,10 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max) 
 }
 
 public OnPluginStart() {
-	g_hCvarTag = CreateConVar("sm_donator_tag", "[Donator]", "Donator tag");
+	new Handle:version = CreateConVar("sm_donator_tagversion", PLUGIN_VERSION, "Custom Chat Colors - Donator tags", FCVAR_DONTRECORD|FCVAR_NOTIFY|FCVAR_CHEAT);
+	SetConVarString(version, PLUGIN_VERSION);
+	
+	g_hCvarTag = CreateConVar("sm_donator_tag", "[Donator]", "Donator tag (Space automatically appended to end)");
 	g_hCvarTagColor = CreateConVar("sm_donator_tagcolor", "-2", "Donator tag color - None: -1, Green: -2, Olive: -3, Team: -4");
 	g_hCvarNameColor = CreateConVar("sm_donator_namecolor", "-4", "Donator name color - None: -1, Green: -2, Olive: -3, Team: -4");
 	g_hCvarChatColor = CreateConVar("sm_donator_chatcolor", "-1", "Donator chat color - None: -1, Green: -2, Olive: -3, Team: -4");
@@ -68,6 +71,12 @@ public OnPluginEnd() {
 				CCC_ResetColor(i, CCC_ChatColor);
 			}
 		}
+	}
+}
+
+public OnAllPluginsLoaded() {
+	if(!LibraryExists("ccc")) {
+		SetFailState("Custom Chat Colors is not installed. Please visit https://forums.alliedmods.net/showthread.php?t=186695 and install it.");
 	}
 }
 
